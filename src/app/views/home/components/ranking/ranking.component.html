@@ -1,0 +1,105 @@
+<div class="w-full">
+  <div class="py-3 bg-transparent">
+    <div class="font-RohnRounded-Bold text-2xl text-secondary-text uppercase">SportsWriter's Ranking</div>
+  </div>
+
+  <ng-container *ngIf="!(writers$ | async); else loaded">
+    <ng-container *ngFor="let article of temp; let i = index">
+      <div class="flex justify-between items-start px-6 py-2 bg-grey-lighter my-[1px] w-full">
+        <ion-thumbnail class="h-[62px] w-[92px] rounded-lg">
+          <ion-skeleton-text style="width: 100%; height: 100%;" [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+        <div class="w-[72%]">
+          <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #loaded>
+    <ng-container>
+      <ng-container>
+        <div class="m-1">
+          <div class="flex flex-col">
+            <div class="flex justify-evenly divide-x-2 divide-white">
+              <button
+                [ngClass]="activeTab === 'tab1' ? 'bg-[#f0f0e6] text-primary-base': 'bg-primary-base text-white ' "
+                (click)="onClickEvent('tab1')"
+                class="font-semibold text-sm px-1 border border-transparent rounded-tl-md h-[55px] w-full text-center font-mono uppercase  ">Highest
+                rated</button>
+              <button [ngClass]="activeTab === 'tab2' ? 'bg-[#f0f0e6] text-primary-base': 'bg-primary-base text-white'"
+                (click)="onClickEvent('tab2')"
+                class="font-semibold text-sm px-1 h-[55px] w-full text-center font-mono uppercase ">Most
+                Clicked</button>
+              <button [ngClass]="activeTab === 'tab3' ? 'bg-[#f0f0e6] text-primary-base': 'bg-primary-base text-white'"
+                (click)="onClickEvent('tab3')"
+                class="font-semibold text-sm px-1 border border-transparent rounded-tr-md h-[55px] w-full text-center font-mono uppercase  ">Most
+                active</button>
+
+            </div>
+            <ng-container *ngIf="!(writersLoading$ | async) as writers; else isLoading ">
+              <div *ngIf="(writers$ | async) as writers">
+                <ng-container>
+                  <div class="border rounded-b-md bg-[#f0f0e6]">
+                    <ul *ngFor="let w of writers, let i = index">
+                      <li class="border-b" *ngIf="i < 5">
+                        <div class="flex justify-between py-2 px-6">
+                          <div class="font-semibold flex text-primary-base hover:text-green-900"><span
+                              [ngClass]="i === 0 ? 'text-yellow-500 text-[3rem]': 'text-[2rem] text-[#d3d3bd]'"
+                              class="flex items-center mr-[10px] ">#{{i+1}}
+                            </span> <a [routerLink]="['/writer',  w.slug]" class="flex flex-col justify-center">
+                              <span class="font-RohnRounded-Bold text-lg text-black"> {{w.name}}</span>
+                              <span class="text-sm font-FranklinGothic-Bold text-primary-base">
+                                {{w.publications}}</span>
+                            </a></div>
+                          <div
+                            class="rounded-full block -z-1  justify-end border-2 transition-all h-[5rem] w-[5rem] p-[3px]  border-grey-light ease-in-out duration-300">
+                            <img alt="" loading="lazy" class="rounded-full relative h-full w-full object-cover"
+                              [src]="w.display_image"
+                              onerror="this.src='../../../../../assets/images/no-image.jpeg'; this.class='rounded-full transition-all ease-in-out duration-300 w-full h-full object-scale-down';" />
+                            <img alt="" loading="lazy" *ngIf="i === 0"
+                              class="relative -top-[27px] -right-[35px] h-[40px] w-[40px] z-50"
+                              src="../../../../../assets/images/trophy.png" />
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+            <ng-template #isLoading>
+              <div
+                class="border items-center flex flex-col p-[30px] min-h-[16rem] bg-[#f0f0e6] rounded-b-md my-[1px] w-full">
+                <ng-container *ngFor="let article of temp; let i = index">
+                  <div class="flex justify-between items-start px-6 py-2 bg-grey-lighter my-[1px] w-full">
+
+                    <div class="w-[72%]">
+                      <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+                      <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+                      <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
+                      <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
+                    </div>
+
+                    <ion-thumbnail class="h-[62px] w-[92px] ml-4 rounded-full">
+                      <ion-skeleton-text style="width: 100%; height: 100%;" [animated]="true"></ion-skeleton-text>
+                    </ion-thumbnail>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container>
+        <!-- <div class="mt-[50px] p-2 cursor-pointer" (click)="openPeachBasket()">
+        <img src="../../../../../assets/images/peachbasket.png"/>
+      </div> -->
+      </ng-container>
+    </ng-container>
+  </ng-template>
+</div>

@@ -1,0 +1,59 @@
+
+
+<ng-container *ngIf="leagueName === 'NFL'">
+  <a [routerLink]="['/team',slug]">
+  <svg [style.height]="height" [style.width]="width" viewBox="0 0 489 551" xmlns="http://www.w3.org/2000/svg">
+    <g fill-rule="evenodd">
+      <path [ngStyle]="{'color': color2 ? color2 : NFL_DefaultColors.color2}" d="M130.788 171.056c3.727 4.433 10.339 5.011 14.779 1.293l12.624-10.593a824.222 824.222 0 0125.297 18.915l-13.276 11.14c-4.409 3.932-4.894 10.656-1.097 15.181 3.797 4.526 10.504 5.215 15.142 1.556l16.646-13.967a810.51 810.51 0 0123.03 19.667l-15.58 13.075c-4.81 4.034-5.436 11.203-1.402 16.011 4.035 4.808 11.203 5.435 16.012 1.4l17.749-14.893c6.982 6.765 13.841 13.711 20.318 20.808l-14.554 12.213c-4.993 4.189-5.644 11.632-1.455 16.624 4.19 4.992 11.632 5.644 16.624 1.455l14.632-12.278a412.562 412.562 0 0117.24 23.3l-18.385 15.427c-4.809 4.034-5.436 11.203-1.401 16.011s11.203 5.435 16.011 1.4l16.279-13.658a556.605 556.605 0 0115.263 26.093l-17.435 14.63c-4.409 3.933-4.894 10.657-1.097 15.182 3.797 4.526 10.504 5.215 15.142 1.556l13.789-11.57c6.216 12.433 10.728 22.524 13.416 28.792l-12.57 10.548c-4.443 3.728-5.022 10.35-1.295 14.793 3.728 4.442 10.35 5.022 14.793 1.294l37.452-31.426c4.442-3.727 5.021-10.35 1.294-14.792-3.728-4.443-10.35-5.022-14.793-1.295l-8.817 7.399c-3.199-7.25-7.81-17.087-13.638-28.606l10.134-8.504a10.93 10.93 0 00-14.045-16.738l-6.61 5.547a557.76 557.76 0 00-15.41-25.971l10.319-8.659c4.808-4.034 5.435-11.203 1.4-16.011-4.034-4.808-11.202-5.435-16.01-1.4l-8.35 7.006a443.763 443.763 0 00-17.317-23.236l14.478-12.148c4.993-4.19 5.644-11.632 1.455-16.624-4.19-4.993-11.632-5.644-16.625-1.455l-14.554 12.213c-6.474-7.14-13.273-14.122-20.22-20.891l8.902-7.47c4.808-4.034 5.436-11.202 1.401-16.01-4.035-4.809-11.203-5.436-16.011-1.401l-11.008 9.236a721.42 721.42 0 00-22.878-19.796l7.477-6.274c4.409-3.932 4.895-10.656 1.097-15.182-3.797-4.525-10.503-5.214-15.142-1.556l-10.77 9.038c-9.738-7.638-18.39-14.137-25.174-19.018l8.955-7.514c4.442-3.728 5.021-10.35 1.294-14.793-3.728-4.442-10.35-5.021-14.793-1.294l-37.46 31.432c-4.432 3.734-5.001 10.352-1.272 14.788z" fill="currentColor"/>
+      <path [ngStyle]="{'color': color1 ? color1 : NFL_DefaultColors.color1}" d="M6.3 41.925c-9.346 71.44-20.367 250.391 78.269 367.94 98.514 117.405 276.378 137.68 348.272 140.952 24.846 1.273 46.456-16.86 49.517-41.55 9.26-71.37 20.165-250.04-78.348-367.443C305.374 24.274 127.243 4.04 55.265.838 30.799-.116 9.609 17.665 6.299 41.925zm457.973 359.431a689.34 689.34 0 01-5.314 104.87c-1.55 12.486-12.477 21.655-25.042 21.013a688.56 688.56 0 01-105.268-13.177c23.932-8.816 53.98-22.79 78.876-43.68 18.822-15.794 41.14-43.724 56.748-69.026zm-260.2-352.86c64.884 18.658 133.798 51.206 181.86 108.483 48.06 57.277 68.176 130.863 75.248 197.94-.04.217-.17.405-.197.622-3.545 9.777-28.21 62.834-68.635 96.754-40.424 33.92-98.285 48.335-108.514 50.691-64.655-18.681-133.268-51.181-181.187-108.29-48.267-57.522-68.34-131.43-75.378-198.732 0 0 .053-.045.038-.11 3.545-9.777 28.21-62.835 68.635-96.755 39.846-33.395 96.776-47.956 108.124-50.611l.006.007zm-149.87-24.08A689.6 689.6 0 01159.26 37.484c-23.848 8.823-53.709 22.77-78.429 43.513-18.73 15.717-40.912 43.467-56.517 68.663a690.27 690.27 0 015.397-104.693c1.659-12.132 12.255-21.023 24.49-20.55z" fill-rule="nonzero" fill="currentColor"/>
+    </g>
+  </svg>
+</a>
+</ng-container>
+
+<ng-container *ngIf="leagueName === 'NHL'">
+  <a [routerLink]="['/team',slug]">
+  <svg [style.height]="height" [style.width]="width" viewBox="0 0 771 771" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(10 10)" fill="none" fill-rule="evenodd">
+      <circle stroke="#363731" stroke-width="20" cx="375.205" cy="375.876" r="375"/>
+      <circle stroke="#363731" stroke-width="20" cx="375.205" cy="375.876" r="340"/>
+      <path [ngStyle]="{'color': color1 ? color1 : NHL_DefaultColors.color1}" d="M421.108 395.746l56.146 111.949h102.142c11.157 0 20.203 9.026 20.203 20.37v20.433c0 11.25-9.238 20.37-20.33 20.37H456.801c-11.228 0-24.48-8.357-29.371-18.202l-41.754-84.059 11.421-22.842 48.595 97.83c1.49 2.999 7.721 6.881 11.11 6.881h122.465c-.11 0-.06-20.412-.06-20.412 0-.072-101.954.021-101.954.021h-12.585l-5.642-11.249-49.308-98.314 11.389-22.776zm-56.16-111.979l-11.39 22.777-14.277-28.468-19.539 9.956 21.466 43.215-11.422 22.842-65.568-132c-5.557-11.188-1.122-24.76 10.027-30.374l15.466-7.79c11.095-5.587 24.567-1.186 30.062 9.77l45.174 90.072z" fill="currentColor" fill-rule="nonzero"/>
+      <path [ngStyle]="{'color': color2 ? color2 : NHL_DefaultColors.color2}" d="M323.168 550.666c-4.89 9.845-18.143 18.201-29.372 18.201H171.33c-11.092 0-20.33-9.12-20.33-20.37v-20.433c0-11.343 9.045-20.37 20.203-20.37h102.142l157.48-314c5.495-10.955 18.968-15.356 30.063-9.769l15.466 7.79c11.148 5.614 15.583 19.186 10.026 30.373L323.168 550.666zm-31.596-33.83l-5.642 11.25h-12.585s-101.954-.094-101.954-.022c0 0 .05 20.412-.06 20.412h122.465c3.388 0 9.62-3.882 11.11-6.881l125.95-253.563-19.539-9.956-119.745 238.76z" fill="currentColor" fill-rule="nonzero"/>
+    </g>
+  </svg>
+</a>
+</ng-container>
+
+<ng-container *ngIf="leagueName === 'NBA'">
+  <a [routerLink]="['/team',slug]">
+  <svg [style.height]="height" [style.width]="width" viewBox="0 0 593 594" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#000" stroke-width="15" fill="none" fill-rule="evenodd">
+      <path [ngStyle]="{'color': color2 ? color2 : NBA_DefaultColors.color2}" d="M7.727 302.818S266.604 374.186 585.273 297M249.05 14.208S-56.382 218.65 228.703 579.524" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color2 ? color2 : NBA_DefaultColors.color2}" d="M56.831 458.14s47.71-62.62 150.108-12.585c102.398 50.036 144.314 94.41 300.225 48.951M28.454 189.378s3.62 73.791 67.322 74.12c121.636.63 240.324-113.433 333.413-109.394 93.09 4.038 131.071 25.169 131.071 25.169" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color1 ? color1 : NBA_DefaultColors.color1}" d="M585.274 297c0 159.486-129.288 288.772-288.773 288.772S7.728 456.486 7.728 297C7.728 137.516 137.016 8.228 296.5 8.228S585.274 137.515 585.274 297z" stroke="currentColor"/>
+    </g>
+  </svg>
+</a>
+</ng-container>
+
+<ng-container *ngIf="leagueName === 'MLB'">
+  <a [routerLink]="['/team',slug]">
+  <svg [style.height]="height" [style.width]="width" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#000" fill="none" fill-rule="evenodd">
+      <path [ngStyle]="{'color': color2 ? color2 : MLB_DefaultColors.color2}" d="M4.162 19.312s1.699-3.76 1.699-7.73c0-3.737-1.699-8.2-1.699-8.2" stroke-width="1.159" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color2 ? color2 : MLB_DefaultColors.color2}" d="M3.694 16.214l2.732 1" stroke-width="1.171" stroke-linecap="round" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color2 ? color2 : MLB_DefaultColors.color2}" d="M3.97 13.848l2.987.5" stroke-width="1.245" stroke-linecap="round" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color2 ? color2 : MLB_DefaultColors.color2}" d="M4.245 11.483h3.244" stroke-width="1.319" stroke-linecap="round" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color2 ? color2 : MLB_DefaultColors.color2}" d="M3.991 9.111l2.988-.5" stroke-width="1.245" stroke-linecap="round" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color2 ? color2 : MLB_DefaultColors.color2}" d="M3.738 6.74l2.73-1" stroke-width="1.171" stroke-linecap="round" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color2 ? color2 : MLB_DefaultColors.color2}" d="M18.944 3.383s-1.698 3.76-1.698 7.73c0 3.737 1.698 8.2 1.698 8.2" stroke-width="1.159" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color2 ? color2 : MLB_DefaultColors.color2}" d="M19.412 6.48l-2.731-1" stroke-width="1.171" stroke-linecap="round" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color2 ? color2 : MLB_DefaultColors.color2}" d="M18.965 8.847l-2.988-.5" stroke-width="1.245" stroke-linecap="round" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color2 ? color2 : MLB_DefaultColors.color2}" d="M18.518 11.212h-3.243" stroke-width="1.319" stroke-linecap="round" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color2 ? color2 : MLB_DefaultColors.color2}" d="M18.943 13.584l-2.987.5" stroke-width="1.245" stroke-linecap="round" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color2 ? color2 : MLB_DefaultColors.color2}" d="M19.369 15.956l-2.731 1" stroke-width="1.171" stroke-linecap="round" stroke="currentColor"/>
+      <path [ngStyle]="{'color': color1 ? color1 : MLB_DefaultColors.color1}" d="M22.195 11.348c0 5.99-4.856 10.847-10.847 10.847S.5 17.338.5 11.347C.5 5.357 5.357.5 11.348.5c5.99 0 10.847 4.857 10.847 10.848z" stroke="currentColor"/>
+    </g>
+  </svg>
+</a>
+</ng-container>

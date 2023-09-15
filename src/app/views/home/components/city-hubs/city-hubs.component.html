@@ -1,0 +1,93 @@
+<div class="min-h-[100px] w-full h-full">
+
+  <!-- City Hubs Header -->
+  <div class="flex justify-between px-3 items-center rounded-t-lg py-3 bg-grey-lighter gap-x-4">
+    <div class="font-RohnRounded-Bold text-2xl text-secondary-text px-2 flex justify-start align-middle items-start"
+      id="click-trigger">{{
+      i }}
+      <span
+        class="font-RohnRounded-Black cursor-pointer mt-[3px] mx-[4px] text-lg pt-[2px] rounded-full h-6 w-6 xs:h-6 xs:w-6 flex justify-center items-center bg-secondary-text text-primary-base">?</span>
+
+      <ion-popover trigger="click-trigger" side="bottom" triggerAction="click">
+        <ng-template>
+
+          <ion-content class="ion-padding">
+            <p class="text-xs text-black">If you are a registered user, you can
+              set your default city to display in
+              your <span class="text-green-700 font-semibold cursor-pointer" (click)="openAccountSettings()">account
+                settings.</span></p>
+          </ion-content>
+
+        </ng-template>
+      </ion-popover>
+    </div>
+
+    <app-city-select *ngIf="showCities" (cityChanged)="showCityInBanner($event)"></app-city-select>
+  </div>
+
+  <ng-container *ngIf="cityArticlesLoading$ | async; else loaded">
+    <div *ngFor="let article of temp; let i = index"
+      class="flex flex-col justify-center cursor-pointer bg-grey-lighter my-[1px] w-full h-16 px-6 hover:bg-grey-light">
+      <ion-skeleton-text [animated]="true" style="width: 100%; height: 12px;"></ion-skeleton-text>
+      <ion-skeleton-text [animated]="true" style="width: 100%; height: 12px;"></ion-skeleton-text>
+    </div>
+    <div class="float-right">
+      <a
+        class="bg-primary-base transition ease-out duration-150 relative inline-block py-[7px] px-[30px] h-10 align-middle rounded-br-lg bottom-banner">
+        <span class="font-RohnRounded-Bold text-base text-white uppercase">
+          <ion-icon class="text-secondary-text text-xs ml-1" name="caret-forward-outline"></ion-icon>
+        </span>
+      </a>
+    </div>
+  </ng-container>
+  <ng-template #loaded>
+    <ng-container *ngIf="isDesktop&&(cityArticles$ | async) as articles">
+      <div [routerLink]="['/article', article.slug]" *ngFor="let article of articles; let i = index"
+        (mouseenter)="hoveredOn = article.id" (mouseleave)="hoveredOn = -1"
+        class="flex flex-col justify-center cursor-pointer bg-grey-lighter my-[1px] w-full h-16 px-6 hover:bg-grey-light"
+        [ngClass]="{'rounded-b-lg': i === articles.length - 1 }">
+        <div
+          class="text-grey truncate max-w-fit transition-all ease-in duration-200 text-[10px] font-medium items-center"
+          *ngIf="article.authors?.length > 0">{{ getArticleWriter(article.authors) }}</div>
+        <a [routerLink]="['/article',article.slug]" [ngClass]="{'!text-primary-base': hoveredOn === article.id}"
+          class="text-black text-sm truncate max-w-fit font-medium items-center hover:text-primary-base"
+          [innerHtml]="article.title | domSanitizer"></a>
+      </div>
+
+
+      <div *ngIf="selectedCity" class="float-right">
+        <a (click)="navToCity(selectedCity)"
+          class="bg-primary-base transition ease-out duration-150 relative inline-block py-[7px] px-[30px] h-10 align-middle rounded-br-lg bottom-banner">
+          <button class="font-RohnRounded-Bold  text-white uppercase text-sm">
+            {{ selectedCity.name }} City Page
+            <ion-icon class="text-secondary-text text-xs ml-1" name="caret-forward-outline"></ion-icon>
+          </button>
+        </a>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!isDesktop&&(cityArticles$ | async) as articles">
+      <div [routerLink]="['/article', article.slug]" *ngFor="let article of articles; let i = index"
+        class="flex flex-col justify-center cursor-pointer bg-grey-lighter my-[1px] w-full h-16 px-6 hover:bg-grey-light"
+        [ngClass]="{'rounded-b-lg': i === articles.length - 1 }">
+        <div
+          class="text-grey truncate max-w-fit transition-all ease-in duration-200 text-[10px] font-medium items-center"
+          *ngIf="article.authors?.length > 0">{{ getArticleWriter(article.authors) }}</div>
+        <a [routerLink]="['/article',article.slug]" [ngClass]="{'!text-primary-base': hoveredOn === article.id}"
+          class="text-black text-sm truncate max-w-fit font-medium items-center hover:text-primary-base"
+          [innerHtml]="article.title | domSanitizer"></a>
+      </div>
+
+
+      <div *ngIf="selectedCity" class="float-right">
+        <a (click)="navToCity(selectedCity)"
+          class="bg-primary-base transition ease-out duration-150 relative inline-block py-[7px] px-[30px] h-10 align-middle rounded-br-lg bottom-banner">
+          <button class="font-RohnRounded-Bold  text-white uppercase text-sm">
+            {{ selectedCity.name }} City Page
+            <ion-icon class="text-secondary-text text-xs ml-1" name="caret-forward-outline"></ion-icon>
+          </button>
+        </a>
+      </div>
+    </ng-container>
+  </ng-template>
+
+</div>

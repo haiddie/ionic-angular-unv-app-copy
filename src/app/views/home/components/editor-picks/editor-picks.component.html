@@ -1,0 +1,58 @@
+<div class="w-full">
+  <div class="py-3 bg-transparent">
+    <div class="font-RohnRounded-Bold text-2xl text-secondary-text uppercase">Editor's Picks</div>
+  </div>
+
+  <ng-container *ngIf="editorPicksLoading$ | async; else loaded">
+    <ng-container *ngFor="let article of temp; let i = index">
+      <div class="flex justify-between items-start px-6 py-2 bg-grey-lighter my-[1px] w-full">
+        <ion-thumbnail class="h-[62px] w-[92px] rounded-lg">
+          <ion-skeleton-text style="width: 100%; height: 100%;" [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+        <div class="w-[72%]">
+          <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-template #loaded>
+    <ng-container *ngIf="(editorPicksArticles$ | async) as articles">
+      <ng-container *ngFor="let article of articles; let i = index">
+        <div *ngIf="article.image !== 'null' &&isDektop"  [ngClass]="{'rounded-b-lg': i === articles.length - 1, 'rounded-t-lg': i === 0 }" (mouseenter)="hoveredOn = article.id" (mouseleave)="hoveredOn = null" class="flex justify-between items-start px-6 py-2 bg-grey-lighter my-[1px] w-full">
+          <div [ngClass]="{'!border-primary-base': hoveredOn === article.id}" class="rounded-lg border-2 border-transparent transition-all h-[62px] w-[20%] ease-in-out duration-300">
+            <img alt="" loading="lazy" *ngIf="article.type ==='articles'" [routerLink]="['/article', article.slug]" [ngClass]="{'grayscale': hoveredOn === article.id}" class="rounded-lg h-full w-full object-cover" [src]="article.image"  onerror="this.src='../../../../../assets/images/no-image.jpeg'; this.class='rounded-lg transition-all ease-in-out duration-300 w-full h-full object-scale-down';" />
+            <img alt="" loading="lazy" *ngIf="article.type ==='content'" [routerLink]="['/experiences', article.slug]" [ngClass]="{'grayscale': hoveredOn === article.id}" class="rounded-lg h-full w-full object-cover" [src]="article.image"  onerror="this.src='../../../../../assets/images/no-image.jpeg'; this.class='rounded-lg transition-all ease-in-out duration-300 w-full h-full object-scale-down';" />
+          </div>
+          <div class="flex flex-col justify-center cursor-pointer bg-grey-lighter my-[1px]  w-[80%] min-h-[64px] px-3">
+            <div class="flex items-center gap-x-4 " *ngIf="getTeamInitials(article) as teams">
+              <a *ngFor="let team of teams" [routerLink]="'/team/'+team.slug" [style.color]="team.color" class="transition-all inline-block uppercase ease-in duration-200 text-[10px] font-bold hover:opacity-70">{{ team.team }}</a>
+              <div [routerLink]="['/article', article.slug]" class="text-grey truncate max-w-fit transition-all ease-in duration-200 text-[10px] font-medium items-center" *ngIf="article.authors?.length > 0 && article.type ==='articles'">{{ getArticleWriter(article.authors) }}</div>
+              <div [routerLink]="['/experiences', article.slug]" class="text-grey truncate max-w-fit transition-all ease-in duration-200 text-[10px] font-medium items-center" *ngIf="article.authors?.length > 0 &&article.type ==='content'">{{ getArticleWriter(article.authors) }}</div>
+            </div>
+            <a *ngIf="article.type ==='articles'" [routerLink]="['/article', article.slug]" [ngClass]="{'!text-primary-base': hoveredOn == article.id}" class="text-black text-sm line-clamp-3 font-semibold items-center" [href]="'/article/'+ article.slug" [innerHtml]="article.title | domSanitizer"></a>
+            <a *ngIf="article.type ==='content'"  [routerLink]="['/experiences', article.slug]" [ngClass]="{'!text-primary-base': hoveredOn == article.id}" class="text-black text-sm line-clamp-3 font-semibold items-center" [href]="'/experiences/'+ article.slug" [innerHtml]="article.title | domSanitizer"></a>
+          </div>
+        </div>
+        <div *ngIf="article.image !== 'null' &&!isDektop"  [ngClass]="{'rounded-b-lg': i === articles.length - 1, 'rounded-t-lg': i === 0 }"  class="flex justify-between items-start px-6 py-2 bg-grey-lighter my-[1px] w-full">
+          <div [ngClass]="{'!border-primary-base': hoveredOn === article.id}" class="rounded-lg border-2 border-transparent transition-all h-[62px] w-[25%] sm:w-[20%] ease-in-out duration-300">
+            <img alt="" loading="lazy" *ngIf="article.type ==='articles'" [routerLink]="['/article', article.slug]" [ngClass]="{'grayscale': hoveredOn === article.id}" class="rounded-lg h-full w-full object-cover" [src]="article.image"  onerror="this.src='../../../../../assets/images/no-image.jpeg'; this.class='rounded-lg transition-all ease-in-out duration-300 w-full h-full object-scale-down';" />
+            <img alt="" loading="lazy" *ngIf="article.type ==='content'" [routerLink]="['/experiences', article.slug]" [ngClass]="{'grayscale': hoveredOn === article.id}" class="rounded-lg h-full w-full object-cover" [src]="article.image"  onerror="this.src='../../../../../assets/images/no-image.jpeg'; this.class='rounded-lg transition-all ease-in-out duration-300 w-full h-full object-scale-down';" />
+          </div>
+          <div class="flex flex-col justify-center cursor-pointer bg-grey-lighter my-[1px] w-[75%] sm:w-[80%] min-h-[64px] px-3">
+            <div class=" items-center gap-x-4 " *ngIf="getTeamInitials(article) as teams">
+              <a *ngFor="let team of teams" [routerLink]="'/team/'+team.slug" [style.color]="team.color" class="transition-all inline-block uppercase ease-in mr-1 duration-200 text-[10px] font-bold hover:opacity-70">{{ team.team }}</a>
+              <div [routerLink]="['/article', article.slug]" class="text-grey truncate max-w-fit transition-all ease-in duration-200 text-[10px] font-medium items-center" *ngIf="article.authors?.length > 0 && article.type ==='articles'">{{ getArticleWriter(article.authors) }}</div>
+              <div [routerLink]="['/experiences', article.slug]" class="text-grey truncate max-w-fit transition-all ease-in duration-200 text-[10px] font-medium items-center" *ngIf="article.authors?.length > 0 &&article.type ==='content'">{{ getArticleWriter(article.authors) }}</div>
+            </div>
+            <a *ngIf="article.type ==='articles'" [routerLink]="['/article', article.slug]" [ngClass]="{'!text-primary-base': hoveredOn == article.id}" class="text-black text-sm line-clamp-3 font-semibold items-center" [href]="'/article/'+ article.slug" [innerHtml]="article.title | domSanitizer"></a>
+            <a *ngIf="article.type ==='content'"  [routerLink]="['/experiences', article.slug]" [ngClass]="{'!text-primary-base': hoveredOn == article.id}" class="text-black text-sm line-clamp-3 font-semibold items-center" [href]="'/experiences/'+ article.slug" [innerHtml]="article.title | domSanitizer"></a>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+
+</div>

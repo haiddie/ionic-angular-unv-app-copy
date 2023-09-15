@@ -1,0 +1,92 @@
+<div class="relative h-[374px] lg:h-[31rem] mt-7">
+  <div id="content-experiences-trigger" class="flex whitespace-nowrap -top-7 left-[50%]  -translate-x-1/2 items-start cursor-pointer gap-x-2 absolute bg-primary-base px-7 py-2 font-RohnRounded-Black text-[16px] xs:text-2xl text-white z-20 md:tracking-widest">
+    CONTENT EXPERIENCES
+    <span class="font-RohnRounded-Black mt-[3px] text-lg pt-[2px] px-[2px] lg:pl-1 rounded-full p1 h-4 w-4 xs:h-6 xs:w-6 flex justify-center items-center bg-secondary-text text-primary-base">?</span>
+  </div>
+  <ng-container *ngIf="(contents$ | async) as contents">
+    <ng-container *ngIf="contents.length > 0; else noContentExperienceFound">
+      <div class="swiper-button-prev" (click)=" slidePrev()">
+      </div>
+      <swiper #swiper [config]="config" *ngIf="isDesktop">
+       
+        <ng-container *ngFor="let slide of contents; let i = index" >
+          <ng-container *ngIf="slide.image && slide.image !== 'null' && slide.image.length > 0">
+            <ng-template swiperSlide>
+              <div [routerLink]="['/experiences', slide.slug]" (mouseenter)="mouseEnterSlide(i)" (mouseleave)="mouseLeaveSlide(i)" class="relative z-[1] mx-auto md:left-6 lg:left-0 !h-full w-[210px] md:w-[210px] lg:w-full transition-all ease-in-out duration-300 before:rounded-lg before:absolute before:block before:top-0 before:left-0 before:z-[1] before:transition-all before:ease-in-out before:duration-150 before:w-full before:md:w-full before:lg:w-full before:!h-full before:bg-gradient-to-b from-[rgba(17,17,17,.05)] via-[rgba(17,17,17,.30)] to-[rgba(17,17,17,.75)]">
+                <img alt="" loading="lazy" alt="" [id]="slide.id" [ngClass]="{'grayscale': hoveredOn === i}" class="rounded-lg absolute transition-all ease-in-out duration-300 top-0 left-0 !h-full w-[280px]    lg:w-full object-cover" [src]="slide.thumbnail" onerror="this.src='../../../../../assets/images/no-image.jpeg'; this.class='rounded-lg transition-all ease-in-out duration-300 w-full !h-full object-cover';" />
+                <a [routerLink]="['/experiences/', slide.slug]" class="z-[99] absolute bottom-7 !text-left font-bold text-base text-white !p-[25px]">
+                  <span class="absolute top-[18px] text-secondary-text text-sm">{{slide.published_date|date:'MMM d y' }}</span><br />
+                  <div [innerHTML]="slide.title | domSanitizer"></div>
+                </a>
+                <p class="z-[99] absolute right-5 md:right-7 lg:right-5 bottom-3 font-RohnRounded-Black text-left text-base text-[#d3d3bd] uppercase">{{ slide.organization }}</p>
+              </div>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+      </swiper>
+      <swiper #swiper [config]="config" *ngIf="!isDesktop">
+       
+        <ng-container *ngFor="let slide of contents; let i = index" >
+          <ng-container *ngIf="slide.image && slide.image !== 'null' && slide.image.length > 0">
+            <ng-template swiperSlide>
+              <div [routerLink]="['/experiences', slide.slug]"  class="relative z-[1] mx-auto md:left-6 lg:left-0 !h-full w-[210px] md:w-[210px] lg:w-full transition-all ease-in-out duration-300 before:rounded-lg before:absolute before:block before:top-0 before:left-0 before:z-[1] before:transition-all before:ease-in-out before:duration-150 before:w-full before:md:w-full before:lg:w-full before:!h-full before:bg-gradient-to-b from-[rgba(17,17,17,.05)] via-[rgba(17,17,17,.30)] to-[rgba(17,17,17,.75)]">
+                <img alt="" loading="lazy" alt="" [id]="slide.id" [ngClass]="{'grayscale': hoveredOn === i}" class="rounded-lg absolute transition-all ease-in-out duration-300 top-0 left-0 !h-full w-[280px]    lg:w-full object-cover" [src]="slide.image" onerror="this.src='../../../../../assets/images/no-image.jpeg'; this.class='rounded-lg transition-all ease-in-out duration-300 w-full !h-full object-cover';" />
+                <a [routerLink]="['/experiences/', slide.slug]" class="z-[99] absolute bottom-7 !text-left font-bold text-base text-white !p-[25px]">
+                  <span class="absolute top-[18px] text-secondary-text text-sm">{{slide.published_date|date:'MMM d y' }}</span><br />
+                  <div [innerHTML]="slide.title | domSanitizer"></div>
+                </a>
+                <p class="z-[99] absolute right-5 md:right-7 lg:right-5 bottom-3 font-RohnRounded-Black text-left text-base text-[#d3d3bd] uppercase">{{ slide.organization }}</p>
+              </div>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+      </swiper>
+      <div class="swiper-button-next" (click)="slideNext()">
+      </div>
+     
+        <ion-button fill="clear" style="float:right" (click)="goExpArc()">
+          <ion-label  class="font-semibold text-xl uppercase text-gray-500 text-right inline-block align-middle">Experience More </ion-label>
+          <ion-icon name="caret-forward" class="inline-block align-middle text-gray-500" ></ion-icon>
+        </ion-button>
+      
+     
+     
+    </ng-container>
+    <ng-template #noContentExperienceFound>
+      <swiper #swiper1 [config]="config">
+        <ng-template swiperSlide>
+          <ion-thumbnail style="width: 100%; height: 100%;">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%;"></ion-skeleton-text>
+          </ion-thumbnail>
+        </ng-template>
+        <ng-template swiperSlide>
+          <ion-thumbnail style="width: 100%; height: 100%;">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%;"></ion-skeleton-text>
+          </ion-thumbnail>
+        </ng-template>
+        <ng-template swiperSlide>
+          <ion-thumbnail style="width: 100%; height: 100%;">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%;"></ion-skeleton-text>
+          </ion-thumbnail>
+        </ng-template>
+      </swiper>
+    </ng-template>
+  </ng-container>
+  
+
+  <ion-popover trigger="content-experiences-trigger" triggerAction="click" size="cover" class="popover">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <div class="max-w-[280px] sm:min-w-[300px] sm:max-w-full px-2">
+          <div class="font-bold text-lg my-3">What are Content Experiences?</div>
+          <div class="text-xs">
+            Our goal here at SportsWriters is to provide a new format for sports content. This includes presenting the latest sports news in exciting new ways that are more interactive and visual. To do this, our team develops original articles based on the day’s top headlines and then takes these articles to a higher level by surrounding the content with related images, statistics, infographics, social posts, and comments taken from our own sources and from the most popular media outlets on the web. Put together collectively, we call this new sports format Content Experiences.
+            <br /><br />
+            Let us know what you think. If you have suggestions for improvement, feel free to use the feedback button to voice your opinion!
+          </div>
+          <div class="my-3 font-medium text-sm text-grey">The SportsWriters Team!</div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-popover>
+</div>

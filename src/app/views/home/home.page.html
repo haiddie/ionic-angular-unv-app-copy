@@ -1,0 +1,513 @@
+<ion-header>
+  <!-- <app-header></app-header> -->
+  <div *ngIf="(menuItems$ | async) as menuItems" class="bg-background-navbar" [ngClass]="{'pt-safe-top': Plt === 'ios'}"
+    id="clickbox">
+    <div class="">
+      <header class="relative">
+        <nav aria-label="Top">
+          <div class="bg-background-navbar">
+            <div class="mx-auto px-4 sm:px-6 lg:px-72 xl:px-10">
+              <div class="">
+                <div class="h-[120px] sm:h-[89.5px] xl:h-[77px] flex items-center justify-between flex-col sm:flex-row">
+                  <div class="flex items-center">
+                    <a [routerLink]="['/home']">
+                      <span class="sr-only">SportsWriters</span>
+                      <img alt="" class="h-[47px] w-[231px]" src="../../../assets/sportswriters-logo.svg" alt="" />
+                    </a>
+                    <a [routerLink]="['/home']" class="ml-[20px] cursor-pointer">
+                      <span class="sr-only">SportsWriters Home Icon</span>
+                      <div class="w-6 h-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -256 1792 1792">
+                          <path
+                            d="M1476.339 741.424v480q0 26-19 45t-45 19h-384v-384h-256v384h-384q-26 0-45-19t-19-45v-480q0-1 .5-3t.5-3l575-474 575 474q1 2 1 6zm223-69l-62 74q-8 9-21 11h-3q-13 0-21-7l-692-577-692 577q-12 8-24 7-13-2-21-11l-62-74q-8-10-7-23.5t11-21.5l719-599q32-26 76-26t76 26l244 204v-195q0-14 9-23t23-9h192q14 0 23 9t9 23v408l219 182q10 8 11 21.5t-7 23.5z"
+                            fill="#fff" />
+                        </svg>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="flex grow w-full">
+                    <div class="hidden h-full xl:flex ml-6 xl:mt-[5px]">
+                      <div class="">
+                        <div class="h-full flex justify-center">
+                          <ng-container *ngFor="let item of menuItems ; let i = index">
+                            <div class="flex" (click)="show(item.id)" (mouseenter)="show(item.id)"
+                              (mouseleave)="dropdownClose()" id="clickbox">
+                              <div class="relative h-auto flex">
+                                <h1 [ngClass]="{'bg-dark-green': activeMenuIndex === item.id}"
+                                  class="font-RohnRounded-Black transition-colors ease-in-out duration-300 text-[18px] uppercase pointer-cursor gap-x-1 px-3 pt-3 pb-[28px] mt-4 rounded-t-lg text-white relative z-10 flex items-center">
+                                  <ng-container *ngIf="item.title === 'MORE'; else other">
+                                    <img alt="" loading="lazy" class="h-[24px] w-[24px]"
+                                      src="../../../assets/icon/more.svg" />
+                                  </ng-container>
+                                  <ng-template #other>
+                                    <div [ngClass]="{'text-secondary-text': activeMenuIndex === item.id}"
+                                      class="font-RohnRounded-Black flex items-center">
+                                      <button> {{ item.title }}</button>
+                                      <ion-icon class="text-secondary-text text-xs ml-1" name="caret-down-outline"
+                                        *ngIf="activeMenuIndex !== item.id">
+                                      </ion-icon>
+
+                                      <ion-icon class="text-secondary-text text-xs ml-1" name="caret-up-outline"
+                                        *ngIf="activeMenuIndex === item.id">
+                                      </ion-icon>
+                                    </div>
+                                  </ng-template>
+                                </h1>
+                              </div>
+
+                              <div [ngClass]="{'!opacity-100 !visible': activeMenuIndex === item.id}"
+                                class="absolute h-full invisible z-50 opacity-0 top-full inset-x-0 transition-all ease-in-out duration-300 text-gray-500 sm:text-sm">
+                                <div class="relative bg-dark-green w-[calc(100%-60px)] mx-auto p-[10px] rounded-b-lg">
+                                  <div *ngIf="item.conferences"
+                                    class="flex items-center mx-[70px] pt-5 pb-[30px] font-RohnRounded-Black text-secondary-text text-[19px]">
+                                    <ng-container *ngFor="let conference of item.conferences; let j = index">
+                                      <button>
+                                        <a *ngIf="conference.title.includes('Home')"
+                                          [routerLink]="['/league',conference.url]"
+                                          class="font-RohnRounded-Black uppercase hover:text-[#ffa200]"
+                                          (click)="navToLeague(conference.url)">{{ conference.title }}</a>
+                                        <a *ngIf="!conference.title.includes('Home')"
+                                          [routerLink]="['/conference',conference.url]"
+                                          class="font-RohnRounded-Black uppercase hover:text-[#ffa200]"
+                                          (click)="navToConference(conference.url)">{{ conference.title }}</a>
+                                      </button>
+                                      <div *ngIf="j < item.conferences.length - 1"
+                                        class="h-[4px] w-[4px] mx-5 rounded-full bg-white"></div>
+                                    </ng-container>
+                                  </div>
+                                  <div
+                                    [ngClass]="item.title === 'CITIES' || item.title === 'STATS' || item.title === 'MORE' ? 'bg-dark-green' : 'bg-primary-base'"
+                                    class="mx-auto px-8 pt-[45px] pr-[70px] pb-[1px] pl-[35px] rounded-b-lg">
+                                    <div class="grid grid-cols-1 items-start gap-y-10 gap-x-8">
+                                      <ng-container *ngIf="item.divisions.length > 0; else noDivisions">
+                                        <div class="grid gap-y-10 gap-x-14 mx-[35px] mb-[60px]"
+                                          [ngClass]="item.divsInRow === 4 ? 'grid-cols-4' : item.divsInRow === 3 ? 'grid-cols-3' : 'grid-cols-5'">
+
+                                          <div *ngFor="let division of item.divisions;">
+                                            <a *ngIf="menuItems[i].title !== 'CITIES' && menuItems[i].title !== 'STATS' && menuItems[i].title !== 'MORE'"
+                                              [routerLink]="['/division',division.url]"
+                                              (click)="navToDivision(division.url)" id="desktop-featured-heading-0"
+                                              class="cursor-pointer uppercase font-RohnRounded-Black text-[15px] text-secondary-text mb-[15px] hover:text-[#ffa200]">
+                                              {{ division.title }}
+                                            </a>
+                                            <h1
+                                              *ngIf="menuItems[i].title === 'CITIES' || menuItems[i].title === 'STATS' || menuItems[i].title === 'MORE'"
+                                              id="desktop-featured-heading-0"
+                                              class="cursor-default uppercase font-RohnRounded-Black text-[15px] text-secondary-text mb-[15px] ">
+                                              {{ division.title }}
+                                            </h1>
+                                            <ul role="list" aria-labelledby="desktop-featured-heading-0"
+                                              class="space-y-2 mt-[15px]">
+                                              <ng-container *ngIf="division.teams.length > 0; else noTeam">
+                                                <li *ngFor="let item of division.teams" class="flex text-white">
+                                                  <button>
+                                                    <a *ngIf="menuItems[i].title ===  'CITIES' "
+                                                      [routerLink]="['/city',item.url]" (click)="navToCity(item.url)"
+                                                      routerDirection="forward"
+                                                      class="text-[15px] hover:text-secondary-text"
+                                                      [ngClass]="{'text-secondary-text': router.url === '/city/'+item.url}">
+                                                      {{ item.title }}
+                                                    </a>
+                                                    <a *ngIf="item.id !==  '-2' && item.id !== '-3' && menuItems[i].title !== 'CITIES'"
+                                                      [routerLink]="['/team',item.url]" (click)="navToTeam(item.url)"
+                                                      routerDirection="forward"
+                                                      class="text-[15px] hover:text-secondary-text"
+                                                      [ngClass]="{'text-secondary-text': router.url === '/team/'+item.url}">
+                                                      {{ item.title }}
+                                                    </a>
+
+                                                    <a *ngIf="item.id == '-2'" [routerLink]="[item.url]"
+                                                      [queryParams]="{league: item.league , type: item.title, stat_table_v2: 'true'}"
+                                                      routerDirection="forward"
+                                                      class="text-[15px] hover:text-secondary-text">
+                                                      {{ item.title }}</a>
+
+                                                    <a *ngIf="item.id == '-3' && item.url !== '/feedback' "
+                                                      [routerLink]="[item.url]" routerDirection="forward"
+                                                      class="text-[15px] hover:text-secondary-text">
+                                                      {{ item.title }}</a>
+
+                                                    <a *ngIf="item.id == '-3' && item.url === '/feedback' "
+                                                      (click)="openFeedbackModal()"
+                                                      class="text-[15px] hover:text-secondary-text">
+                                                      {{ item.title }}</a>
+                                                  </button>
+                                                </li>
+                                              </ng-container>
+                                              <ng-template #noTeam>
+                                                <ion-skeleton-text [animated]="true" style="height: 20px">
+                                                </ion-skeleton-text>
+                                                <ion-skeleton-text [animated]="true" style="height: 20px">
+                                                </ion-skeleton-text>
+                                                <ion-skeleton-text [animated]="true" style="height: 20px">
+                                                </ion-skeleton-text>
+                                                <ion-skeleton-text [animated]="true" style="height: 20px">
+                                                </ion-skeleton-text>
+                                              </ng-template>
+                                            </ul>
+                                          </div>
+                                        </div>
+                                      </ng-container>
+                                      <ng-template #noDivisions>
+                                        <div class="grid gap-y-10 gap-x-14 mx-[35px] mb-[60px] grid-cols-4">
+                                          <div *ngFor="let a of temp;">
+                                            <ion-skeleton-text [animated]="true" style="
+                                                height: 20px;
+                                                margin-bottom: 20px;
+                                              "></ion-skeleton-text>
+                                            <ul class="space-y-2">
+                                              <li class="flex text-white">
+                                                <ion-skeleton-text [animated]="true" style="height: 18px">
+                                                </ion-skeleton-text>
+                                              </li>
+                                              <li class="flex text-white">
+                                                <ion-skeleton-text [animated]="true" style="height: 18px">
+                                                </ion-skeleton-text>
+                                              </li>
+                                              <li class="flex text-white">
+                                                <ion-skeleton-text [animated]="true" style="height: 18px">
+                                                </ion-skeleton-text>
+                                              </li>
+                                              <li class="flex text-white">
+                                                <ion-skeleton-text [animated]="true" style="height: 18px">
+                                                </ion-skeleton-text>
+                                              </li>
+                                            </ul>
+                                          </div>
+                                        </div>
+                                      </ng-template>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex xl:hidden">
+                      <div class="ml-0">
+                        <div class="h-full flex justify-center">
+                          <div class="flex">
+                            <div class="relative h-auto flex">
+                              <h1 (click)="openSmallMenu(menuItems[0].id)"
+                                [ngClass]="{'bg-dark-green': isSmallMenuOpen}"
+                                class="font-RohnRounded-Black transition-colors ease-in-out duration-300 text-[18px] uppercase pointer-cursor gap-x-1 pr-3 pb-12 pl-5 sm:pb-8 md:pb-[2rem] lg:pb-8 mt-4 pt-5 rounded-t-lg text-white relative z-10 flex items-center">
+                                Menu<ion-icon class="text-secondary-text text-xs" name="caret-down-outline"></ion-icon>
+                              </h1>
+                            </div>
+                            <div [ngClass]="{'!opacity-100 !visible': isSmallMenuOpen}"
+                              class="absolute h-[500px] invisible transition-all ease-in-out duration-300 z-50 opacity-0 top-full inset-x-0 text-gray-500 sm:text-sm overflow-y-auto">
+                              <div class="bg-dark-green w-screen sm:w-[calc(100%-40px)] mx-auto rounded-b-lg">
+                                <div class="bg-dark-green mx-auto px-2 sm:px-10 py-7 rounded-b-lg w-full ">
+                                  <div class="flex ">
+                                    <div class="flex flex-col">
+                                      <ng-container *ngFor="let item of menuItems; let i = index">
+                                        <div (click)="setActiveMobileMenuItem(item.id)"
+                                          [ngClass]="{'border-t-2': i === 0, 'border-b-2': i === menuItems.length - 1, '!text-secondary-text': mobileActiveMenuIndex === item.id}"
+                                          class="font-RohnRounded-Black text-[15px] border border-l-2 border-r-2 border-primary-base text-white w-20 h-[57px] flex flex-col justify-evenly items-center">
+                                          {{ item.title }}
+                                        </div>
+                                      </ng-container>
+                                    </div>
+                                    <div class="grow">
+                                      <div *ngFor="let item of menuItems; let j = index">
+                                        <div [ngClass]="{'!block': mobileActiveMenuIndex === item.id}" class="hidden ">
+                                          <div class="relative bg-dark-green mx-auto rounded-b-lg ">
+                                            <div *ngIf="item.conferences"
+                                              class="flex flex-col items-start mr-2 ml-4 sm:mx-[35px] mb-14 font-RohnRounded-Black text-secondary-text text-[19px]">
+                                              <ng-container *ngFor="let conference of item.conferences; let j = index">
+                                                <a *ngIf="conference.title.includes('Home')"
+                                                  class="uppercase hover:text-[#ffa200] font-RohnRounded-Black"
+                                                  (click)="navToLeague(conference.url)">{{ conference.title }}</a>
+                                                <a *ngIf="!conference.title.includes('Home')"
+                                                  class="uppercase hover:text-[#ffa200] font-RohnRounded-Black"
+                                                  (click)="navToConference(conference.url)">{{ conference.title }}</a>
+
+                                                <div *ngIf="j < item.conferences.length - 1"
+                                                  class="h-[2px] w-full my-5 rounded-full bg-primary-base"></div>
+                                              </ng-container>
+                                            </div>
+                                            <div class="mx-auto rounded-b-lg z-[999] ">
+                                              <div class="grid grid-cols-1 items-start gap-y-10 gap-x-8">
+                                                <div *ngIf="item.divisions.length > 0; else noDivisions">
+                                                  <div
+                                                    class="grid grid-cols-1 gap-y-10 gap-x-14 mr-2 ml-4 sm:mx-[35px] mb-[60px]">
+                                                    <div *ngFor="let division of item.divisions;">
+                                                      <a (click)="navToDivision(division.url)"
+                                                        id="desktop-featured-heading-0"
+                                                        class="flex pb-1 border-b-2 border-b-primary-base cursor-pointer uppercase font-RohnRounded-Black text-[15px] text-secondary-text mb-[15px] hover:text-[#ffa200]">
+                                                        {{ division.title }}
+                                                      </a>
+                                                      <ul role="list" aria-labelledby="desktop-featured-heading-0"
+                                                        class="space-y-2 mt-[15px]">
+                                                        <div *ngIf="division.teams.length > 0; else noTeam">
+                                                          <li *ngFor="let item of division.teams"
+                                                            class="flex text-white">
+                                                            <a *ngIf="menuItems[j].title ===  'CITIES' "
+                                                              (click)="navToCity(item.url)" routerDirection="forward"
+                                                              class="text-[15px] hover:text-secondary-text"
+                                                              [ngClass]="{'text-secondary-text': router.url === '/city/'+item.url}">
+                                                              {{ item.title }}
+                                                            </a>
+                                                            <a *ngIf="item.id !==  '-2' && item.id !== '-3' && menuItems[j].title !== 'CITIES'"
+                                                              (click)="navToTeam(item.url)" routerDirection="forward"
+                                                              class="text-[15px] hover:text-secondary-text"
+                                                              [ngClass]="{'text-secondary-text': router.url === '/team/'+item.url}">
+                                                              {{ item.title }}
+                                                            </a>
+
+                                                            <a *ngIf="item.id == '-2'" [routerLink]="[item.url]"
+                                                              [queryParams]="{league: item.league , type: item.title, stat_table_v2: 'true'}"
+                                                              routerDirection="forward"
+                                                              class="text-[15px] hover:text-secondary-text">
+                                                              {{ item.title
+                                                              }}</a>
+
+                                                            <a *ngIf="item.id == '-3' && item.url !== '/feedback' "
+                                                              [routerLink]="[item.url]" routerDirection="forward"
+                                                              class="text-[15px] hover:text-secondary-text">
+                                                              {{ item.title
+                                                              }}</a>
+
+                                                            <a *ngIf="item.id == '-3' && item.url === '/feedback' "
+                                                              (click)="openFeedbackModal()"
+                                                              class="text-[15px] hover:text-secondary-text">
+                                                              {{ item.title
+                                                              }}</a>
+                                                          </li>
+                                                        </div>
+                                                        <ng-template #noTeam>
+                                                          <li class="flex justify-center text-white">
+                                                            <ion-spinner color="secondary" name="crescent">
+                                                            </ion-spinner>
+                                                          </li>
+                                                        </ng-template>
+                                                      </ul>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <ng-template #noDivisions>
+                                                  <div class="grid gap-y-10 gap-x-14 mx-[35px] mb-[60px] grid-cols-1">
+                                                    <ul class="space-y-2">
+                                                      <li class="flex justify-center text-white">
+                                                        <ion-spinner color="secondary" name="crescent"></ion-spinner>
+                                                      </li>
+                                                    </ul>
+                                                  </div>
+                                                </ng-template>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex-1 flex items-center justify-end">
+                      <div class="flex items-center lg:ml-8 h-full">
+                        <div class="flex items-center h-full sm:space-x-8 -mt-[10px] sm:mt-0 md:mt-0 lg:mt-0 xl:mt-0">
+                          <div class="hidden xl:flex">
+                            <form [formGroup]="searchForm" (ngSubmit)="openSearch()">
+                              <div class="relative">
+                                <input
+                                  class="w-[210px] font-RohnRounded-Black pl-2 pb-1 pr-10 bg-transparent border-b-2 border-b-secondary-text text-white placeholder-white focus:outline-none"
+                                  formControlName="searchData" placeholder="Search" />
+                                <button type="submit">
+                                  <img alt="" loading="lazy" class="w-6 h-6 absolute top-0 right-2" alt=""
+                                    src="../../../assets/icon/magnifier.svg" />
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+
+                          <div class="flex xl:hidden mr-[10px]">
+                            <form [formGroup]="searchForm" (ngSubmit)="openSearch()">
+                              <div class="flex items-center relative">
+                                <input [ngClass]="{'!opacity-100 !visible': isSearchFieldOpen}"
+                                  formControlName="searchData"
+                                  class="w-[100px] sm:w-[100px] md:w-[150px] md:mr-3 lg:w-[210px] xl:w-[210px] 2xl:w-[210px] opacity-0 invisible transition-all duration-100 font-RohnRounded-Black  pl-2 pb-1 pr-10 bg-transparent border-b-2 border-b-secondary-text text-white placeholder-white focus:outline-none"
+                                  placeholder="Search" />
+                                <button *ngIf="!isSearchFieldOpen" type="button" (click)="openSearchField()">
+                                  <img alt="" loading="lazy" class="w-6 h-6 top-0 right-2" alt=""
+                                    src="../../../assets/icon/magnifier.svg" />
+                                </button>
+                                <button *ngIf="isSearchFieldOpen" type="submit">
+                                  <img alt="" loading="lazy" class="w-6 h-6  top-0 right-2" alt=""
+                                    src="../../../assets/icon/magnifier.svg" />
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+
+                          <div *ngIf="(auth$ | async) as auth" class="hidden h-full xl:flex">
+                            <ng-container *ngIf="!auth.isLoggedIn ">
+                              <ion-spinner *ngIf="(isSignInLoading$|async)" class="flex text-white self-center">
+                              </ion-spinner>
+                              <button (click)="signInModal()" *ngIf="!(isSignInLoading$|async)"
+                                class="flex text-white items-center">
+                                <img alt="" loading="lazy" alt="" class="mt-[3px] mr-[3px] h-[24px] w-[24px]"
+                                  src="../../../assets/icon/user.svg" />
+                                <span class="mt-[3px]"> logIn</span>
+                              </button>
+                            </ng-container>
+
+                            <!-- <app-sign-in (signInModal)="signInModal($event)" [isModalOpen]="isModalOpen"></app-sign-in> -->
+
+                            <ng-container *ngIf="auth.isLoggedIn" class="relative">
+                              <div
+                                class="relative z-50 top-[25px] w-[200px] border border-transparent rounded-t-md font-RohnRounded-Black  text-white flex flex-col gap-x-[6px] items-center text-[15px]">
+                                <button (click)="showDropdown = !showDropdown"
+                                  class="flex w-full align-middle items-center text-center justify-center  rounded-t-md"
+                                  [ngClass]="{'bg-[#056132]': showDropdown, 'bg-primary-base': !showDropdown}">
+                                  <img alt="" loading="lazy" alt="" class="h-[24px] w-[24px] pr-1"
+                                    src="../../../assets/icon/user.svg" />
+                                  <span class="cursor-pointer text-lg" *ngIf="userService.userObject?.username!==null">
+                                    {{userService.userObject?.username}} </span>
+                                  <span class="cursor-pointer text-lg"
+                                    *ngIf="userService.userObject?.username===null&&userService.userObject?.name!==null">
+                                    {{userService.userObject?.name}} </span>
+
+                                  <span class="cursor-pointer text-lg"
+                                    *ngIf="userService.userObject?.username===null&&userService.userObject?.name===null">
+                                    {{userService.userObject?.email.substring(0,
+                                    userService.userObject?.email.indexOf('@'))}} </span>
+                                  <ion-icon class="flex self-center text-secondary-text text-xl"
+                                    name="caret-down-outline"></ion-icon>
+                                </button>
+                                <div
+                                  [ngClass]="{'opacity-0 invisible  ': !showDropdown,'opacity-100 visible bg-[#056132]': showDropdown }"
+                                  class="w-full border border-transparent rounded-b-md">
+                                  <ul class="">
+                                    <li
+                                      class="text-center text-secondary text-md font-RohnRounded-Regular hover:bg-[#0e4a2b] hover:text-secondary-text">
+                                      <button class="cursor-pointer" (click)="openProfile()">
+                                        <span class="text-xl">Account</span>
+                                      </button>
+                                    </li>
+                                    <li
+                                      class="text-center text-secondary text-md font-RohnRounded-Regular hover:bg-[#0e4a2b] hover:text-secondary-text">
+                                      <button (click)="logout()">
+                                        <span class="text-xl">Logout</span>
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+
+                          <div *ngIf="(auth$ | async) as auth" class="text-right flex xl:hidden">
+                            <ng-container *ngIf="!auth.isLoggedIn">
+                              <button (click)="signInModal()" type="button">
+                                <img alt="" loading="lazy" alt="" class="mb-1 w-6 h-6"
+                                  src="../../../assets/icon/user-1.svg" />
+                              </button>
+                            </ng-container>
+                            <ng-container *ngIf="auth.isLoggedIn">
+                              <div class="flex flex-col items-center relative top-[40px]">
+                                <button type="button"
+                                  [ngClass]=" {'bg-[#056132] rounded-t-md' : showDropdown, 'bg-transparent' : !showDropdown }"
+                                  class="flex p-[10px] mt-[5px] border border-transparent"
+                                  (click)="showDropdown = !showDropdown">
+                                  <img alt="" loading="lazy" class="w-6 h-6" alt=""
+                                    src="../../../assets/icon/user-1.svg" />
+                                  <ion-icon class="flex self-center text-secondary-text text-xs"
+                                    name="caret-down-outline"></ion-icon>
+                                </button>
+                                <ul
+                                  [ngClass]="{'opacity-0 invisible  ': !showDropdown,'opacity-100 visible': showDropdown }"
+                                  class="bg-[#056132] border border-transparent rounded-b-md">
+                                  <li
+                                    class="text-center text-secondary p-2 text-white font-RohnRounded-Regular hover:bg-[#0e4a2b] hover:text-secondary-text">
+                                    <button (click)="openProfile()" type="button">
+                                      <span class="text-xl">
+                                        Account
+                                      </span>
+
+                                    </button>
+                                  </li>
+                                  <li
+                                    class="text-center text-secondary p-2 text-white font-RohnRounded-Regular hover:bg-[#0e4a2b] hover:text-secondary-text">
+                                    <button (click)="logout()" type="button">
+                                      <span class="text-xl">Logout
+                                      </span>
+                                    </button>
+                                  </li>
+                                </ul>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </div>
+  </div>
+
+
+</ion-header>
+
+<ion-content (click)=dropdownClose()>
+
+  <div
+    class="grid grid-rows-1 grid-cols-12 gap-5 w-full mt-[45px] mb-[30px] sm:max-w-[540px] md:max-w-[728px] xl:max-w-[1240px] 2xl:max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="xs:px-[10px] col-span-12 xl:col-span-8 col-start-1 order-1">
+      <app-content-experience></app-content-experience>
+    </div>
+
+    <div class="px-[10px] col-span-12 md:col-span-6 xl:col-span-4 order-3 xl:order-2">
+      <app-city-hubs i="CITY HUBS" [user]="userService.userObject" [showCities]="true"></app-city-hubs>
+    </div>
+
+    <div class="px-[10px] col-span-12 order-2 xl:order-3">
+      <div class="h-[3px] w-full bg-[#daddca] mb-7"></div>
+    </div>
+
+    <div class="px-[10px] col-span-12 xl:col-span-8 order-5 xl:order-4">
+      <app-latest-news league="NFL" leagueColor="#b0604f"></app-latest-news>
+    </div>
+
+    <div class="px-[10px] col-span-12 md:col-span-6 xl:col-span-4 order-4 xl:order-5">
+      <app-editor-picks></app-editor-picks>
+    </div>
+
+    <div class="px-[10px] col-span-12 xl:col-span-8 order-6 xl:order-6">
+      <app-latest-news league="NBA" leagueColor="#ce5b22"></app-latest-news>
+    </div>
+
+    <div class="px-[10px] col-span-12  xl:col-span-4 order-9 xl:order-7">
+      <app-recently-added-writers></app-recently-added-writers>
+    </div>
+
+    <div class="px-[10px] col-span-12 xl:col-span-8 order-7 xl:order-8">
+      <app-latest-news league="NHL" leagueColor="#4a69af"></app-latest-news>
+    </div>
+
+    <div class="px-[10px] col-span-12  xl:col-span-4 order-10 xl:order-9">
+      <app-ranking></app-ranking>
+    </div>
+
+    <div class="px-[10px] col-span-12 xl:col-span-8 order-8 xl:order-10">
+      <app-latest-news league="MLB" leagueColor="#a9bb46"></app-latest-news>
+    </div>
+
+  </div>
+  <app-footer></app-footer>
+</ion-content>
+
+<!-- <ion-footer mode="ios" collapse="fade">
+</ion-footer> -->

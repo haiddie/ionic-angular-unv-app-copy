@@ -1,0 +1,71 @@
+<div class="w-full bg-grey-lighter rounded-lg">
+  <div class="pt-3 pb-4 pl-[1.75rem]">
+    <div class="font-RohnRounded-Bold text-2xl text-primary-base uppercase">Recently Added Writers</div>
+  </div>
+
+  <ng-container *ngIf="writersLoading$ | async; else loaded">
+
+    <ng-container *ngFor="let writer of temp; let i = index">
+      <div class="flex justify-between items-start px-6 py-2  my-[1px] w-full">
+        <ion-thumbnail class="h-[62px] w-[92px] ">
+          <ion-skeleton-text style="width: 100%; height: 100%;" [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+        <div class="w-[72%]">
+          <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%"></ion-skeleton-text>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-template #loaded>
+
+    <ng-container *ngIf="(writers$ | async) as writers">
+      <ng-container *ngFor="let writer of writers; let i = index">
+        <div *ngIf="i < 5" class="border border-b-0 border-white " >
+        
+        <div class="flex justify-end pr-[30px] pt-[2px] "   >
+          <div class="text-[10px] uppercase text-grey m-1 font-semibold"> Added: <span class="text-[10px] text-grey font-semibold">
+              {{writer.created_at | date: 'mediumDate'}} </span> </div>
+         </div>
+         <div class="grid grid-cols-12 justify-between items-start  pb-[10px] pt-[2px] px-2  bg-grey-lighter my-[1px] w-full">
+          <div class="col-span-3">
+            <div
+            class="rounded-full  transition-all h-[64px] w-[64px] m-auto border-grey-light ease-in-out duration-300">
+            <img alt="" loading="lazy" class="rounded-full h-[64px] w-[64px] object-cover" [src]="writer.display_image"
+              onerror="this.src='../../../../../assets/images/author-placeholder.png'; this.class='rounded-full transition-all ease-in-out duration-300 h-[64px] w-[64px] object-scale-down';" />
+          </div>
+          </div>
+          <div class="col-span-9">
+            <div class="flex flex-col justify-center cursor-pointer bg-grey-lighter my-[1px] w-full min-h-[64px]">
+              <div class="flex flex-col  gap-x-2" [routerLink]="['/writer', writer.slug]">
+                <div
+                  class="text-start transition-all w-full ease-in duration-200 text-md text-black font-bold hover:opacity-70">
+                  {{writer.name}}</div>
+                <div
+                  class="text-start transition-all pt-[5px] w-full ease-in duration-200 text-sm -mt-[8px] text-primary-base font-semibold hover:opacity-70">
+                  {{writer.publications}}</div>
+                <div *ngIf="writer.bio" class="text-gray-700 text-sm py-2 font-semibold items-center"
+                  [innerHtml]="writer.bio | domSanitizer"></div>
+                <div>
+                  <!-- line-clamp-3  -->
+                </div>
+                <!-- <div class="flex flex-row flex-wrap"> -->
+                  <!-- <div *ngFor="let team of writer.organization"> -->
+                    <!-- [routerLink]="['/team', team.team_slug]" [style.color]="team.team_color" -->
+                    <!-- <div *ngIf="writer.bio"
+                      class="transition-all px-1 text-primary-base  uppercase ease-in duration-200 text-sm font-bold hover:opacity-70">{{
+                      getTeamInitials(writer.organization) }}</div> -->
+                  <!-- </div> -->
+                <!-- </div> -->
+              </div>
+            </div>
+          </div>
+         </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+
+</div>

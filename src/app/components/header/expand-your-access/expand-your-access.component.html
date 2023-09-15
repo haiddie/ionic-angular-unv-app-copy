@@ -1,0 +1,136 @@
+<!-- <ion-modal [isOpen]="false" class="expand-modal-class" [backdropDismiss]="false">
+  <ng-template> -->
+  
+    <ion-content >
+      <div class="flex flex-col items-end justify-end" *ngIf="!ispasswordlessModel && !successModal">
+      <button class="px-2 mx-2  float-right text-[20px]" *ngIf="!ispasswordlessModel" (click)="closeModal()">
+        X
+      </button>
+      </div>
+      <div class="flex flex-col items-center justify-center px-10 pb-7" *ngIf="!ispasswordlessModel && !successModal">
+       
+        <div class="mb-8 mx-8  text-3xl text-black font-semibold text-primary-base text-center">Expand Your Access!</div>
+        <div class=" text-black  text-center ">
+          <p>Want to view this page on SportsWriters?</p>
+          <p> Simply sign in to access your free membership for instant access to premium areas of the site such as team and city pages along with full stats!
+        </p>
+        </div>
+        <!-- <button (click)="goToSignInPage()" type="button"
+          class="mt-5 inline-flex items-center rounded-md border border-transparent bg-primary-base px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-dark-green focus:outline-none focus:ring-2 focus:ring-dark-green focus:ring-offset-2">Register
+          Now</button>
+        <div class="font-medium mt-5 inline-flex gap-x-2">Already a member? <div (click)="goToSignInPage()"
+            class="text-primary-base font-bold cursor-pointer">Sign in</div>
+        </div> -->
+
+        <div class="flex flex-col max-w-[300px] items-center my-[10px]">
+          <button class="m-2 flex w-[281px] rounded-md border border-[#a8a8a8] hover:border-gray-500 p-2 px-6"
+            (click)="signInWithGoogle()">
+            <img alt="" loading="lazy" alt="" class="mb-1 w-[18px] h-[18px] mt-[3px] mr-[10px]" src="../../../assets/icon/google-logo.png" />
+            <span class="text-black">Continue with Google</span>
+          </button>
+          <!-- <button class="m-2 flex rounded-md border border-[#a8a8a8] hover:border-gray-500 p-2 px-6"
+            (click)="signInWithApple()">
+            <img alt="" loading="lazy" class="mb-1 w-7 h-6 mr-[5px]" src="../../../assets/icon/apple-logo.png" />
+            <span class="text-black">Continue with Apple</span>
+          </button> -->
+          <button class="m-2 flex w-[281px] rounded-md border border-[#a8a8a8] hover:border-gray-500 p-2 px-6"
+            (click)="signInWithFacebook()">
+            <img alt="" loading="lazy" alt="" class="mb-1 w-5 h-5 mr-[6px]" src="../../../assets/icon/facebook-logo.png" />
+            <span class="text-black">Continue with Facebook</span>
+          </button>
+
+          <button class="text m-2 flex w-[281px] rounded-md border border-[#a8a8a8] hover:border-gray-500 p-2 px-6"
+            (click)="openSignInModal()">
+            <img alt="" loading="lazy" alt="" class="mb-1 w-[30px] h-[20px] mt-[1px] mr-[5px]" src="../../../assets/icon/email-logo.png" />
+            <span class="text-black">Continue with Email</span>
+          </button>
+          
+
+          
+        </div>
+        <span class="text-xs text-gray-500 text-center "> Click “Sign In” to agree to SportsWriters’s Terms of
+          Service and acknowledge that SportsWriters’s Privacy Policy applies to you.</span>
+
+          <hr class="w-full h-[2px] mx-auto my-0 bg-gray-100 border-0 rounded md:my-5 dark:bg-gray-200">
+          <div class="divide-x-2 divide-['#989b84'] text-[10px]">
+            <a class="px-2" (click)="nav('/what-is-sportswriters')" [routerLink]="['/what-is-sportswriters']">What is SportsWriters</a>
+             <a class="px-2" (click)="nav('/our-story')"[routerLink]="['/our-story']">Our Story</a>
+             <a class="px-2" (click)="nav('/faqs')" [routerLink]="['/faqs']">FAQS</a>
+             <a class="px-2" (click)="nav('/home')" [routerLink]="['/home']">Home</a>
+          </div>
+      </div>
+
+      <div class="flex flex-col items-center justify-center px-10  my-[100px] align-middle" *ngIf="successModal">
+       
+        <div class="mb-8 mx-8  text-3xl text-primary-base font-semibold  text-center">Check Your Inbox!</div>
+        <div class=" text-black text-left ">
+          <p>Click the link we sent to {{email_address}} to complete your sign in and view this page</p>
+          <p class="text-center my-[50px]"> Didn't get the link?
+            <a class="cursor-pointer text-primary-base" (click)="closeSuccessModal()"> Try again</a>
+        </p>
+        </div>
+        <!-- <button (click)="goToSignInPage()" type="button"
+          class="mt-5 inline-flex items-center rounded-md border border-transparent bg-primary-base px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-dark-green focus:outline-none focus:ring-2 focus:ring-dark-green focus:ring-offset-2">Register
+          Now</button>
+        <div class="font-medium mt-5 inline-flex gap-x-2">Already a member? <div (click)="goToSignInPage()"
+            class="text-primary-base font-bold cursor-pointer">Sign in</div>
+        </div> -->
+
+     
+      </div>
+
+      <ng-container class="flex flex-col items-center justify-center px-10 py-5" *ngIf="ispasswordlessModel">
+        <div >
+          <div class="flex flex-col ">
+            <!-- header -->
+            <div class="m-3 flex justify-end">
+              <button (click)="onCloseEvent()" class="flex justify-end text-black">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div class="flex w-full flex-col items-center">
+              <div class="m-5 items-center flex w-fit justify-center flex-col">
+                <span class="m-8 text-center  text-3xl text-black font-semibold"> Sign In With Email </span>
+                <span class="flex text-black text-center m-3"> Enter the email address associated with your account, and
+                  we’ll send a magic link to your inbox. </span>
+                <form (ngSubmit)="onSubmit()" [formGroup]="signInForm" class="space-y-6">
+                  <div>
+                    <label for="email" class="block text-sm m-3 text-center font-medium text-gray-700"> Your Email
+                    </label>
+                    <div class="mt-1">
+                      <input id="email" formControlName="email" name="email" type="email" autocomplete="email" required
+                        class="block w-full appearance-none rounded-md border text-center border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-secondary-base focus:outline-none focus:ring-secondary-base sm:text-sm text-black" />
+                      <p class="text-red-500 text-xs"
+                        *ngIf="email?.hasError('required') && (email?.touched || email?.dirty)">*Email is required</p>
+                      <p class="text-red-500 text-xs" *ngIf="email?.hasError('email')">*Email is not valid. Please enter a
+                        valid email.</p>
+  
+                        <p class="text-green-500 text-xs pt-4" *ngIf="successMsg">
+                          *Check your email , an email link is successfully sent!
+                        </p>
+  
+                    </div>
+                  </div>
+  
+                  <div>
+  
+                    <button [ngClass]="{'bg-gray-300': (isLoading$ | async), 'bg-primary-base': !(isLoading$ | async)}"
+                      type="submit"
+                      class="flex w-full bg-primary-base justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-gray-200 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2">
+                      <span *ngIf="!(isLoading$ | async)">Sign In</span>
+                      <ion-spinner *ngIf="(isLoading$ | async)" type="indeterminate" name="dots" color="primary">
+                      </ion-spinner>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ion-content>
+  <!-- </ng-template>
+</ion-modal> -->

@@ -1,0 +1,52 @@
+<div class="grid grid-rows-1 grid-cols-12">
+  <div class="col-span-12 md:col-span-6">
+    <ul class="!flex justify-between list-none text-xs flex-wrap xl:px-[10px]">
+      <ng-container *ngFor="let article of temp; let i = index">
+        <li *ngIf="i === 0" class="list-none cursor-pointer basis-full !m-[3px] !inline-block !w-full ">
+          <div class="relative">
+            <div class="!h-[300px] relative">
+              <ion-thumbnail>
+                <ion-skeleton-text style="width: 100%; height: 100%;" [animated]="true"></ion-skeleton-text>
+              </ion-thumbnail>
+            </div>
+          </div>
+          <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%; margin-bottom: 20px;"></ion-skeleton-text>
+        </li>
+        <li *ngIf="i == 1 || i == 2" class="float-left list-none !m-[3px] !inline-block !w-[calc(50%-12px)]">
+          <div class="relative">
+            <div class="!h-[160px] relative">
+              <ion-thumbnail>
+                <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+              </ion-thumbnail>
+            </div>
+          </div>
+          <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 100%; margin-bottom: 20px;"></ion-skeleton-text>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+  <div class="col-span-12 md:col-span-6">
+    <div class="xl:px-[10px]">
+      <ul class="list-none m-0 flex flex-col md:flex-row md:flex-wrap border-t-[1px] border-t-divider-grey">
+        <ng-container *ngFor="let article of temp; let i = index">
+          <li *ngIf="i > 2" class="w-full md:w-1/2 md:pl-[10px] xl:pl-5 grow-0 shrink basis-auto border-b-[1px] border-b-divider-grey">
+            <div class="my-[15px] xl:my-[30px]">
+              <div>
+                <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+              </div>
+            </div>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <ion-skeleton-text [animated]="true" style="width: 50%; height: 20px; margin: 30px auto;"></ion-skeleton-text>
+  </div>
+</div>

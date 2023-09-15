@@ -1,0 +1,30 @@
+.bottom-banner {
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    content: "";
+    bottom: 0;
+    height: 15px;
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+    background: #077a3f;
+    z-index: -1;
+  }
+
+  &::after {
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 12px solid #fbfbf6;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    content: "";
+  }
+}

@@ -1,0 +1,189 @@
+<div class="mt-[30px] md:mt-[22.5px] xl:mt-[30px] xl:mr-[7.5px]">
+  <div class="border-t-[3px] border-t-divider-grey xl:border-t-0 xl:border-b-[3px] xl:border-b-divider-grey">
+    <section>
+      <p [style.color]="leagueColor" class="uppercase font-RohnRounded-Bold text-lg my-[15px]">{{ league }} latest news</p>
+      <ng-container *ngIf="(currentLeagueNewsLoader$ | async); else loaded">
+        <app-news-loader></app-news-loader>
+      </ng-container>
+      <ng-template #loaded>
+        <div *ngIf="currentLeagueNews.length > 0" class="grid grid-rows-1 grid-cols-12">
+          <div class="col-span-12 md:col-span-6" *ngIf="isDesktop">
+            <ul class="!flex justify-between list-none text-xs flex-wrap xl:px-[10px]">
+              <ng-container *ngFor="let article of currentLeagueNews; let i = index">
+                <li  *ngIf="i === 0" (mouseenter)="hoveredOn = article.id" (mouseleave)="hoveredOn = null" class="list-none cursor-pointer basis-full !m-[3px] !inline-block !w-full ">
+                  <div class="relative">
+                    <div class="!h-[300px] relative" *ngIf="article.image && article.image !=='null'">
+                      <a >
+                      <img alt="" loading="lazy"  [routerLink]="'/article/'+article.slug" [ngClass]="{'grayscale': hoveredOn == article.id}" class="rounded-lg transition-all ease-in-out duration-300 w-full h-full object-cover" [src]="article.image" (error)="article.image = null"    /></a>
+                      <div class="absolute bottom-0 left-0 bg-white pt-[10px] pr-[10px] rounded-tr-lg">
+                        <div class="flex gap-x-2 items-center" *ngIf="getTeamInitials(article) as teams" >
+                          <a *ngFor="let team of teams" [routerLink]="'/team/'+team.slug" [style.color]="team.color" class="uppercase inline-block text-[10px] cursor-pointer font-RohnRounded-Bold hover:opacity-70">{{team.team  }}</a>
+                        </div>
+                        <a [routerLink]="['/article',article.slug]" class="text-grey transition-all truncate max-w-fit  ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold"><span class="text-grey transition-all ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold" *ngIf="article.authors?.length > 0"> {{ getArticleWriter(article.authors) }} , </span> <span *ngIf="article.source !== null && article.source!==undefined"  [innerHtml]="article.source | domSanitizer"></span></a>
+                      </div>
+                    </div>
+
+                    <div *ngIf="!article.image || article.image ==='null'">
+                      <div class=" bottom-0 left-0 bg-white pt-[10px] pr-[10px] rounded-tr-lg mt-4">
+                        <div class="flex gap-x-2 items-center" *ngIf="getTeamInitials(article) as teams" >
+                          <a *ngFor="let team of teams" [routerLink]="'/team/'+team.slug" [style.color]="team.color" class="uppercase inline-block text-[10px] cursor-pointer font-RohnRounded-Bold hover:opacity-70">{{team.team  }}</a>
+                        </div>
+                        <a [routerLink]="['/article',article.slug]" class="text-grey transition-all truncate max-w-fit  ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold"><span class="text-grey transition-all ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold" *ngIf="article.authors?.length > 0"> {{ getArticleWriter(article.authors) }} , </span> <span *ngIf="article.source !== null && article.source!==undefined"  [innerHtml]="article.source | domSanitizer"></span></a>
+                      </div>
+                    </div>
+                  </div>
+                  <a [ngStyle]="{'color': hoveredOn == article.id ? leagueColor : '#000'}" class="text-xl transition-all ease-in-out duration-300 my-[15px] leading-[1.1] font-RohnRounded-Bold" [href]="'/article/'+ article.slug" [innerHtml]="article.title | domSanitizer"></a>
+                </li>
+                <li  *ngIf="i == 1 || i == 2" (mouseenter)="hoveredOn = article.id" (mouseleave)="hoveredOn = null" class="float-left list-none !m-[3px] !inline-block !w-[calc(50%-12px)]">
+                  <div class="relative">
+                    <div class="!h-[160px] relative" *ngIf="article.image && article.image !=='null'">
+                      <a [routerLink]="['/article',article.slug]">
+                      <img alt="" loading="lazy"  [routerLink]="'/article/'+article.slug"  [ngClass]="{'grayscale': hoveredOn == article.id}" class="rounded-lg transition-all ease-in-out duration-300 w-full h-full object-cover" [src]="article.image"   (error)="article.image = null"  /></a>
+                      <div class="absolute bottom-0 left-0 bg-white pt-[10px] pr-[10px] rounded-tr-lg !max-w-[160px] !lg:max-w-[180px]">
+                        <div class="flex gap-x-2 items-center" *ngIf="getTeamInitials(article) as teams">
+                          <a *ngFor="let team of teams"  [routerLink]="'/team/'+team.slug" [style.color]="team.color" class="uppercase inline-block transition-all ease-in duration-200 text-[10px] cursor-pointer font-RohnRounded-Bold hover:opacity-70">{{ team.team }}</a>
+                          
+                        </div>
+                        
+                        <a [routerLink]="['/article',article.slug]" class="text-grey truncate !max-w-[160px] transition-all ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold">
+                          <span class="text-grey transition-all !w-full ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold" *ngIf="article.authors?.length > 0"> {{ getArticleWriter(article.authors) }} , </span> 
+                          <br *ngIf="article.authors?.length >6">
+                          <span *ngIf="article.source !== null && article.source!==undefined"  [innerHtml]="article.source | domSanitizer"></span>
+                        </a>
+                      </div>
+                    </div>
+
+                    <div class="mt-[55px]" *ngIf="!article.image ||  article.image ==='null'">
+                      
+                      <div class="absolute bottom-0 left-0 bg-white pt-[10px] pr-[10px] rounded-tr-lg max-w-[160px]">
+                        <div class="flex gap-x-2 items-center" *ngIf="getTeamInitials(article) as teams">
+                          <a *ngFor="let team of teams"  [routerLink]="'/team/'+team.slug" [style.color]="team.color" class="uppercase inline-block transition-all ease-in duration-200 text-[10px] cursor-pointer font-RohnRounded-Bold hover:opacity-70">{{ team.team }}</a>
+                        </div>
+                        <a [routerLink]="['/article',article.slug]" class="text-grey truncate max-w-fit transition-all ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold">
+                          <span class="text-grey transition-all ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold" *ngIf="article.authors?.length > 0"> {{ getArticleWriter(article.authors) }} , </span>
+                          <br *ngIf="article.authors?.length >6">
+                          <span *ngIf="article.source !== null && article.source!==undefined"  [innerHtml]="article.source | domSanitizer"></span></a>
+                      </div>
+                    </div>
+                  </div>
+                  <a [ngStyle]="{'color': hoveredOn == article.id ? leagueColor : '#000'}" class="text-lg transition-all ease-in-out duration-300 my-[15px] leading-[1.1] font-RohnRounded-Bold"[routerLink]="['/article',article.slug]" [innerHtml]="article.title | domSanitizer" ></a>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+          <div class="col-span-12 md:col-span-6" *ngIf="isDesktop">
+            <div class="xl:px-[10px]">
+              <ul class="list-none m-0 flex flex-col md:flex-row md:flex-wrap border-t-[1px] border-t-divider-grey">
+                <ng-container *ngFor="let article of currentLeagueNews; let i = index">
+                  <li *ngIf="i > 2" (mouseenter)="hoveredOn = article.id" (mouseleave)="hoveredOn = null" class="w-full md:w-1/2 md:pl-[10px] xl:pl-5 grow-0 shrink basis-auto border-b-[1px] border-b-divider-grey">
+                    <div class="my-[15px] xl:my-[30px]">
+                      <div>
+                        <a [routerLink]="['/article',article.slug]" class="mt-[5px] mb-[3.75px] text-grey line-clamp-1 transition-all ease-in duration-200 text-[10px] font-medium hover:opacity-70"><span class="text-grey transition-all ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold" *ngIf="article.authors?.length > 0"> {{ getArticleWriter(article.authors) }} , </span>
+                          <span *ngIf="article.source !== null && article.source!==undefined"  [innerHtml]="article.source | domSanitizer"></span></a>
+                        <a [routerLink]="['/article',article.slug]" [ngStyle]="{'color': hoveredOn == article.id ? leagueColor : '#000'}" class=" font-semibold transition-all leading-[1.1] ease-in duration-300  cursor-pointer text-[15px]" [innerHtml]="article.title | domSanitizer"></a>
+                        <div class="flex gap-x-2 items-center my-[10px]" *ngIf="getTeamInitials(article) as teams">
+                          <a *ngFor="let team of teams" [routerLink]="'/team/'+team.slug" [style.color]="team.color" class="uppercase inline-block text-[10px] transition-all ease-in duration-300 cursor-pointer font-RohnRounded-Bold hover:opacity-70">{{team.team }}</a>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ng-container>
+              </ul>
+            </div>
+            <a [routerLink]="'/league/'+league.toLowerCase()" (mouseenter)="hovered = true" (mouseleave)="hovered = false" class="py-4 hover:opacity-70 flex justify-center items-center">
+              <div [style.color]="leagueColor" class="mt-[2px] transition-all ease-in duration-300 font-RohnRounded-Bold text-sm uppercase">More {{ league }} News</div><ion-icon [style.color]="leagueColor" class="text-xs ml-1" name="caret-forward-outline"></ion-icon>
+            </a>
+          </div>
+
+          <div class="col-span-12 md:col-span-6" *ngIf="!isDesktop">
+            <ul class="!flex justify-between list-none text-xs flex-wrap xl:px-[10px]">
+              <ng-container *ngFor="let article of currentLeagueNews; let i = index">
+                <li  *ngIf="i === 0"  class="list-none cursor-pointer basis-full !m-[3px] !inline-block !w-full ">
+                  <div class="relative">
+                    <div class="!h-[300px] relative" *ngIf="article.image && article.image !=='null'">
+                      <a >
+                      <img alt="" loading="lazy"  [routerLink]="'/article/'+article.slug" [ngClass]="{'grayscale': hoveredOn == article.id}" class="rounded-lg transition-all ease-in-out duration-300 w-full h-full object-cover" [src]="article.image" (error)="article.image = null"    /></a>
+                      <div class="absolute bottom-0 left-0 bg-white pt-[10px] pr-[10px] rounded-tr-lg">
+                        <div class="flex gap-x-2 items-center" *ngIf="getTeamInitials(article) as teams" >
+                          <a *ngFor="let team of teams" [routerLink]="'/team/'+team.slug" [style.color]="team.color" class="uppercase inline-block text-[10px] cursor-pointer font-RohnRounded-Bold hover:opacity-70">{{team.team  }}</a>
+                        </div>
+                        <a [routerLink]="['/article',article.slug]" class="text-grey transition-all truncate max-w-fit  ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold"><span class="text-grey transition-all ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold" *ngIf="article.authors?.length > 0"> {{ getArticleWriter(article.authors) }} , </span> <span *ngIf="article.source !== null && article.source!==undefined"  [innerHtml]="article.source | domSanitizer"></span></a>
+                      </div>
+                    </div>
+
+                    <div *ngIf="!article.image || article.image ==='null'">
+                      <div class=" bottom-0 left-0 bg-white pt-[10px] pr-[10px] rounded-tr-lg mt-4">
+                        <div class="flex gap-x-2 items-center" *ngIf="getTeamInitials(article) as teams" >
+                          <a *ngFor="let team of teams" [routerLink]="'/team/'+team.slug" [style.color]="team.color" class="uppercase inline-block text-[10px] cursor-pointer font-RohnRounded-Bold hover:opacity-70">{{team.team  }}</a>
+                        </div>
+                        <a [routerLink]="['/article',article.slug]" class="text-grey transition-all truncate max-w-fit  ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold"><span class="text-grey transition-all ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold" *ngIf="article.authors?.length > 0"> {{ getArticleWriter(article.authors) }} , </span> <span *ngIf="article.source !== null && article.source!==undefined"  [innerHtml]="article.source | domSanitizer"></span></a>
+                      </div>
+                    </div>
+                  </div>
+                  <a [ngStyle]="{'color': hoveredOn == article.id ? leagueColor : '#000'}" class="text-xl transition-all ease-in-out duration-300 my-[15px] leading-[1.1] font-RohnRounded-Bold" [href]="'/article/'+ article.slug" [innerHtml]="article.title | domSanitizer"></a>
+                </li>
+                <li  *ngIf="i == 1 || i == 2"   class="float-left list-none !m-[3px] !inline-block !w-[calc(50%-12px)]">
+                  <div class="relative">
+                    <div class="!h-[160px] relative" *ngIf="article.image && article.image !=='null'">
+                      <a [routerLink]="['/article',article.slug]">
+                      <img alt="" loading="lazy"  [routerLink]="'/article/'+article.slug"  [ngClass]="{'grayscale': hoveredOn == article.id}" class="rounded-lg transition-all ease-in-out duration-300 w-full h-full object-cover" [src]="article.image"   (error)="article.image = null"  /></a>
+                      <div class="absolute bottom-0 left-0 bg-white pt-[10px] pr-[10px] rounded-tr-lg !max-w-[160px] !lg:max-w-[180px]">
+                        <div class="gap-x-2 items-center" *ngIf="getTeamInitials(article) as teams">
+                          <a *ngFor="let team of teams"  [routerLink]="'/team/'+team.slug" [style.color]="team.color" class="uppercase mr-2 inline-block transition-all ease-in duration-200 text-[10px] cursor-pointer font-RohnRounded-Bold hover:opacity-70">{{ team.team }}</a>
+                          
+                        </div>
+                        
+                        <a [routerLink]="['/article',article.slug]" class="text-grey truncate !max-w-[160px] transition-all ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold">
+                          <span class="text-grey transition-all !w-full ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold" *ngIf="article.authors?.length > 0"> {{ getArticleWriter(article.authors) }} , </span> 
+                          <br *ngIf="article.authors?.length >6">
+                          <span *ngIf="article.source !== null && article.source!==undefined"  [innerHtml]="article.source | domSanitizer"></span>
+                        </a>
+                      </div>
+                    </div>
+
+                    <div class="mt-[55px]" *ngIf="!article.image ||  article.image ==='null'">
+                      
+                      <div class="absolute bottom-0 left-0 bg-white pt-[10px] pr-[10px] rounded-tr-lg max-w-[160px]">
+                        <div class=" gap-x-2 items-center" *ngIf="getTeamInitials(article) as teams">
+                          <a *ngFor="let team of teams"  [routerLink]="'/team/'+team.slug" [style.color]="team.color" class="uppercase inline-block transition-all ease-in duration-200 text-[10px] cursor-pointer font-RohnRounded-Bold hover:opacity-70">{{ team.team }}</a>
+                        </div>
+                        <a [routerLink]="['/article',article.slug]" class="text-grey truncate max-w-fit transition-all ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold">
+                          <span class="text-grey transition-all ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold" *ngIf="article.authors?.length > 0"> {{ getArticleWriter(article.authors) }} , </span>
+                          <br *ngIf="article.authors?.length >6">
+                          <span *ngIf="article.source !== null && article.source!==undefined"  [innerHtml]="article.source | domSanitizer"></span></a>
+                      </div>
+                    </div>
+                  </div>
+                  <a [ngStyle]="{'color': hoveredOn == article.id ? leagueColor : '#000'}" class="text-lg transition-all ease-in-out duration-300 my-[15px] leading-[1.1] font-RohnRounded-Bold"[routerLink]="['/article',article.slug]" [innerHtml]="article.title | domSanitizer" ></a>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+          <div class="col-span-12 md:col-span-6" *ngIf="!isDesktop">
+            <div class="xl:px-[10px]">
+              <ul class="list-none m-0 flex flex-col md:flex-row md:flex-wrap border-t-[1px] border-t-divider-grey">
+                <ng-container *ngFor="let article of currentLeagueNews; let i = index">
+                  <li *ngIf="i > 2"  class="w-full md:w-1/2 md:pl-[10px] xl:pl-5 grow-0 shrink basis-auto border-b-[1px] border-b-divider-grey">
+                    <div class="my-[15px] xl:my-[30px]">
+                      <div>
+                        <a [routerLink]="['/article',article.slug]" class="mt-[5px] mb-[3.75px] text-grey line-clamp-1 transition-all ease-in duration-200 text-[10px] font-medium hover:opacity-70"><span class="text-grey transition-all ease-in duration-200 text-[10px] uppercase font-RohnRounded-Bold" *ngIf="article.authors?.length > 0"> {{ getArticleWriter(article.authors) }} , </span>
+                          <span *ngIf="article.source !== null && article.source!==undefined"  [innerHtml]="article.source | domSanitizer"></span></a>
+                        <a [routerLink]="['/article',article.slug]" [ngStyle]="{'color': hoveredOn == article.id ? leagueColor : '#000'}" class=" font-semibold transition-all leading-[1.1] ease-in duration-300  cursor-pointer text-[15px]" [innerHtml]="article.title | domSanitizer"></a>
+                        <div class="flex gap-x-2 items-center my-[10px]" *ngIf="getTeamInitials(article) as teams">
+                          <a *ngFor="let team of teams" [routerLink]="'/team/'+team.slug" [style.color]="team.color" class="uppercase inline-block text-[10px] transition-all ease-in duration-300 cursor-pointer font-RohnRounded-Bold hover:opacity-70">{{team.team }}</a>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ng-container>
+              </ul>
+            </div>
+            <a [routerLink]="'/league/'+league.toLowerCase()" (mouseenter)="hovered = true" (mouseleave)="hovered = false" class="py-4 hover:opacity-70 flex justify-center items-center">
+              <div [style.color]="leagueColor" class="mt-[2px] transition-all ease-in duration-300 font-RohnRounded-Bold text-sm uppercase">More {{ league }} News</div><ion-icon [style.color]="leagueColor" class="text-xs ml-1" name="caret-forward-outline"></ion-icon>
+            </a>
+          </div>
+        </div>
+      </ng-template>
+    </section>
+  </div>
+</div>
